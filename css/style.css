@@ -1,0 +1,89 @@
+@CHARSET "UTF-8";
+
+#zotya_hp h3 {
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+}
+
+#zotya_hp th {
+	width: 200px;
+}
+
+#zotya_hp .form-wrapper {
+	margin: 10px 0px;
+	background-color: #fff;
+	padding: 1px 12px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+}
+
+#zotya_hp .form-wrapper label {
+	display: block;
+}
+
+#zotya_hp .subnote {
+	font-size: 12px;
+	font-style: italic;
+}
+
+#zotya_hp input[type="submit"] {
+	border: none;
+	-webkit-border-radius: 3;
+	-moz-border-radius: 3;
+	border-radius: 3px;
+	color: #ffffff;
+	font-size: 14px;
+	padding: 5px 10px;
+	text-decoration: none;
+	transition: 0.3s ease-in-out;
+	cursor: pointer;
+}
+#zotya_hp input.submit {
+	background: #17a05e;
+}
+#zotya_hp input.submit:hover {
+	background: #006131;
+}
+
+#zotya_hp input[type="submit"].remove {
+	border: 1px solid #d60000;
+	color: #d60000;
+	background: #fff;
+}
+#zotya_hp input.remove:hover {
+	color: #fff;
+	background: #d60000;
+}
+
+#zotya_hp #users-modify th {
+	max-width: 150px;
+	padding: 15px 10px;
+}
+
+@media screen and (max-width: 800px) {
+	#zotya_hp #users-modify th {
+		display: none;
+	}
+}
+
+#zotya_hp .warning {
+	border: 1px solid #d60000;
+}
+#zotya_hp p.warning {
+	border: none;
+	border-bottom: 1px solid #d60000;
+	color: #d60000;
+}
+#zotya_hp .warning h4 {
+	color: #d60000;
+}
+
+.zotya-hp-global-notification {
+	padding: 1px 10px;
+	background: #fff;
+	min-height: 30px;
+	line-height: 30px;
+}
+
+.zotya-hp-global-notification a {
+	color: #17a05e;
+	font-weight: bold;
+}
