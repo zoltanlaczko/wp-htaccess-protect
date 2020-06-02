@@ -6,7 +6,7 @@ Plugin URI: https://github.com/zoltanlaczko/wp-htaccess-protect/
 Requires at least: 5.0
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -63,6 +63,11 @@ IMPORTANT: Before modifying either of the files, make a copy of them!
 For accessing the files, either use FTP or log in to your web hosting service provider, usually they also enable direct file modification.
 
 == Changelog ==
+
+= 0.2.0 =
+
+* Add authorization fix option if you have loopback issues
+* refactor remove function
 
 = 0.1.0 =
 
