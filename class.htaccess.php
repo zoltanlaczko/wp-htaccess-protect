@@ -68,7 +68,7 @@ class ZOTYA_HP {
 					$this->remove_wp_admin_protection();
 					$this->remove_wp_root_protection();
 					// Modify the saved options
-					$options = array( 'zotya_hp_admin'=>0, 'zotya_hp_login'=>0, 'zotya_hp_site'=>0 );
+					$options = array( 'zotya_hp_admin'=>0, 'zotya_hp_login'=>0, 'zotya_hp_site'=>0, 'zotya_hp_fix_auth'=>0 );
 					update_option( 'zotya_hp_options', serialize( $options ) );
 					$_SESSION['zotya_hp_msg'] = esc_html__( 'User removed. The locks were disabled: there are no users left.', 'zotya-htaccess-protect' );
 				}
@@ -187,14 +187,14 @@ class ZOTYA_HP {
 	* Removes the rows from .htaccess that password protect wp-login.php
 	*/
 	function remove_wp_root_protection() {
-		$this->remove_with_markers( $this->htaccess_root, 'ZOTYA htaccess protect' );
+		$this->zotya_hp_remove_with_markers( $this->htaccess_root, 'ZOTYA htaccess protect' );
 	}
 
 	/**
 	* Remove the added rows from .htaccess file for locking up wp-admin
 	*/
 	function remove_wp_admin_protection() {
-		$this->remove_with_markers( $this->htaccess_admin, 'ZOTYA htaccess protect' );
+		$this->zotya_hp_remove_with_markers( $this->htaccess_admin, 'ZOTYA htaccess protect' );
 	}
 
 	/**
@@ -258,19 +258,20 @@ class ZOTYA_HP {
 			$options['zotya_hp_admin'] = (int) rest_sanitize_boolean( $_POST['zotya_hp_admin'] );
 			$options['zotya_hp_login'] = (int) rest_sanitize_boolean( $_POST['zotya_hp_login'] );
 			$options['zotya_hp_site'] = (int) rest_sanitize_boolean( $_POST['zotya_hp_site'] );
+			$options['zotya_hp_fix_auth'] = (int) rest_sanitize_boolean( $_POST['zotya_hp_fix_auth'] );
 			update_option( 'zotya_hp_options', serialize( $options ) );
 
 			// If the wp-admin lock was enabled
-			if ( $options['zotya_hp_admin'] ) $this->add_wp_admin_protection();
+			if ( $options['zotya_hp_admin'] ) $this->add_wp_admin_protection($options['zotya_hp_fix_auth']);
 			else $this->remove_wp_admin_protection();
 
 			$this->remove_wp_root_protection();
 
 			// If all the site protection was enabled
-			if ( $options['zotya_hp_site'] ) $this->add_wp_root_protection( 'all' );
+			if ( $options['zotya_hp_site'] ) $this->add_wp_root_protection( 'all', $options['zotya_hp_fix_auth'] );
 
 			// If the wp-login.php lock was enabled
-			elseif ( $options['zotya_hp_login'] ) $this->add_wp_root_protection( 'login' );
+			elseif ( $options['zotya_hp_login'] ) $this->add_wp_root_protection( 'login', $options['zotya_hp_fix_auth'] );
 
 			$_SESSION['zotya_hp_msg'] = esc_html__( 'Settings saved.', 'zotya-htaccess-protect' );
 		}
@@ -279,12 +280,13 @@ class ZOTYA_HP {
 	/**
 	* Add wp-admin password protection
 	*/
-	function add_wp_admin_protection(){
-		// If the function doesn't exist, require it
+	function add_wp_admin_protection( $fix_auth = false ){
 		if ( ! function_exists( 'insert_with_markers' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/misc.php' );
 		}
-		$insertion = "\tSetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0\n\tAuthUserFile " . $this->htpasswd_file . "\n\tAuthType basic\n\tAuthName \"Restricted\"\n\trequire valid-user\n\tErrorDocument 401 \"Authorization Required\"\n\t# Stop Apache from serving .ht* files\n\t<Files ~ \"^\.ht\">\n\tOrder allow,deny\n\tDeny from all\n\t</Files>\n\t<Files admin-ajax.php>\n\tOrder allow,deny\n\tAllow from all\n\tSatisfy any\n\t</Files>\n\t<Files ~ \"\.(css|js|svg|png|jpeg|jpg|gif)$\">\n\tOrder allow,deny\n\tAllow from all\n\tSatisfy any\n\t</Files>";
+		$insertion = '';
+		if ( $fix_auth ) $insertion .= "\tSetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0\n";
+		$insertion .= "\tAuthUserFile " . $this->htpasswd_file . "\n\tAuthType basic\n\tAuthName \"Restricted\"\n\trequire valid-user\n\tErrorDocument 401 \"Authorization Required\"\n\t# Stop Apache from serving .ht* files\n\t<Files ~ \"^\.ht\">\n\tOrder allow,deny\n\tDeny from all\n\t</Files>\n\t<Files admin-ajax.php>\n\tOrder allow,deny\n\tAllow from all\n\tSatisfy any\n\t</Files>\n\t<Files ~ \"\.(css|js|svg|png|jpeg|jpg|gif)$\">\n\tOrder allow,deny\n\tAllow from all\n\tSatisfy any\n\t</Files>";
 
 		// Since it has to be an array, explode
 		$insertion = explode( "\n", $insertion );
@@ -294,14 +296,14 @@ class ZOTYA_HP {
 	/**
 	* Add root password protection
 	*/
-	function add_wp_root_protection( $type ){
-		//If the function doesn't exist, require it
+	function add_wp_root_protection( $type, $fix_auth = false ){
 		if ( ! function_exists( 'insert_with_markers' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/misc.php' );
 		}
 		$insertion = "\t# Stop Apache from serving .ht* files\n\t<Files ~ \"^\.ht\">\n\tOrder allow,deny\n\tDeny from all\n\t</Files>\n";
 		if ( $type == 'login' ) $insertion .= "\t# Protect wp-login\n\t<Files wp-login.php>\n";
-		$insertion .= "\tSetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0\n\tAuthUserFile " . $this->htpasswd_file . "\n\tAuthType basic\n\tAuthName \"Restricted\"\n\trequire valid-user\n\tErrorDocument 401 \"Authorization Required\"\n";
+		if ( $fix_auth ) $insertion .= "\tSetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0\n";
+		$insertion .= "\tAuthUserFile " . $this->htpasswd_file . "\n\tAuthType basic\n\tAuthName \"Restricted\"\n\trequire valid-user\n\tErrorDocument 401 \"Authorization Required\"\n";
 		if ( $type == 'login' ) $insertion .= "\t</Files>\n";
 		$insertion .= "\t<Files admin-ajax.php>\n\torder allow,deny\n\tallow from all\n\t</Files>";
 
@@ -359,30 +361,12 @@ class ZOTYA_HP {
 	* @param string $marker
 	* @return boolean
 	*/
-	function remove_with_markers( $filename, $marker ){
+	function zotya_hp_remove_with_markers( $filename, $marker ) {
 		if ( !file_exists( $filename ) || is_writeable( $filename ) ) {
-			if ( !file_exists( $filename ) ) {
-				$markerdata = '';
-			} else {
-				$markerdata = explode( "\n", implode( '', file( $filename ) ) );
-			}
-
-			if ( !$f = @fopen( $filename, 'w' ) )
-			return false;
-
-			if ( $markerdata ) {
-				$state = true;
-				foreach ( $markerdata as $n => $markerline ) {
-					if ( strpos($markerline, '# BEGIN ' . $marker) !== false ) $state = false;
-					if ( $state ) {
-						if ( $n + 1 < count( $markerdata ) )
-						fwrite( $f, "{$markerline}\n" );
-						else
-						fwrite( $f, "{$markerline}" );
-					}
-				}
-			}
-			fclose( $f );
+			$marker_regex = '/# BEGIN ' . $marker . '+?# END ' . $marker . '/s';
+			$content = file_get_contents( $filename );
+			$new_content = preg_replace( $marker_regex, '', $content );
+			file_put_contents( $filename, $new_content );
 			return true;
 		} else {
 			return false;
@@ -392,22 +376,22 @@ class ZOTYA_HP {
 	/**
 	* On plugin activation
 	*/
-	function activate(){
+	function activate() {
 		// Create the default options
-		$options = array( 'zotya_hp_admin'=>0, 'zotya_hp_login'=>0, 'zotya_hp_site'=>0 );
+		$options = array( 'zotya_hp_admin'=>0, 'zotya_hp_login'=>0, 'zotya_hp_site'=>0, 'zotya_hp_fix_auth'=>0 );
 		update_option( 'zotya_hp_options', serialize( $options ), true );
 	}
 
 	/**
 	* On plugin deactivation
 	*/
-	function deactivate(){
+	function deactivate() {
 		// Remove rows for locking up
 		$this->remove_wp_root_protection();
 		$this->remove_wp_admin_protection();
 
 		// Set options to default
-		$options = array( 'zotya_hp_admin'=>0, 'zotya_hp_login'=>0, 'zotya_hp_site'=>0 );
+		$options = array( 'zotya_hp_admin'=>0, 'zotya_hp_login'=>0, 'zotya_hp_site'=>0, 'zotya_hp_fix_auth'=>0 );
 		update_option( 'zotya_hp_options', serialize( $options ) );
 	}
 }

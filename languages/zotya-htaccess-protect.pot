@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: htaccess protect\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-26 16:44+0000\n"
+"POT-Creation-Date: 2020-06-02 11:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -40,87 +40,98 @@ msgstr ""
 msgid "Protection for wp-admin"
 msgstr ""
 
-#: settings-page.php:62 settings-page.php:73 settings-page.php:84
+#: settings-page.php:63 settings-page.php:75 settings-page.php:87
+#: settings-page.php:99
 msgid "Enabled"
 msgstr ""
 
-#: settings-page.php:65 settings-page.php:76 settings-page.php:87
+#: settings-page.php:66 settings-page.php:78 settings-page.php:90
+#: settings-page.php:102
 msgid "Disabled"
 msgstr ""
 
-#: settings-page.php:67
+#: settings-page.php:68
 msgid ""
 "By enabling this setting, you will probably be asked for the password as "
 "soon as you save this option (or go to any other admin page) - so be careful."
 msgstr ""
 
-#: settings-page.php:71
+#: settings-page.php:72
 msgid "Protection for wp-login.php"
 msgstr ""
 
-#: settings-page.php:78
+#: settings-page.php:80
 msgid ""
 "By enabling this setting, you will be asked for this password before you can "
 "access the login page again. This is in addition to and separate from the "
 "WordPress login."
 msgstr ""
 
-#: settings-page.php:82
+#: settings-page.php:84
 msgid "Protection for the whole site"
 msgstr ""
 
-#: settings-page.php:89
+#: settings-page.php:92
 msgid ""
 "By enabling this setting, you will be asked for this password before you can "
 "access ANY PAGE again. Only the people with username/password will be able "
 "to see any page of the site - be careful!"
 msgstr ""
 
-#: settings-page.php:94
-msgid "Save"
-msgstr ""
-
-#: settings-page.php:100
-msgid "Modify users"
-msgstr ""
-
-#: settings-page.php:103 settings-page.php:135
-msgid "Username"
+#: settings-page.php:96
+msgid "Authorization fix"
 msgstr ""
 
 #: settings-page.php:104
+#, php-format
+msgid "Enable this fix if you have notice Loopback issues on %1$s."
+msgstr ""
+
+#: settings-page.php:109
+msgid "Save"
+msgstr ""
+
+#: settings-page.php:115
+msgid "Modify users"
+msgstr ""
+
+#: settings-page.php:118 settings-page.php:150
+msgid "Username"
+msgstr ""
+
+#: settings-page.php:119
 msgid "Modify password"
 msgstr ""
 
-#: settings-page.php:105
+#: settings-page.php:120
 msgid "Remove user"
 msgstr ""
 
-#: settings-page.php:116
+#: settings-page.php:131
 msgid "New password"
 msgstr ""
 
-#: settings-page.php:117
+#: settings-page.php:132
 msgid "Change password"
 msgstr ""
 
-#: settings-page.php:121
+#: settings-page.php:136
 msgid "Remove User"
 msgstr ""
 
-#: settings-page.php:130
+#: settings-page.php:145
 msgid "Add new user"
 msgstr ""
 
-#: settings-page.php:140
+#: settings-page.php:155
 msgid "Password"
 msgstr ""
 
-#: settings-page.php:147
+#: settings-page.php:162
 msgid "Add user"
 msgstr ""
 
-#: settings-page.php:158
+#: settings-page.php:173
 msgid "Settings"
 msgstr ""
 
@@ -128,23 +139,23 @@ msgstr ""
 msgid "New user added"
 msgstr ""
 
-#: class.htaccess.php:44 class.htaccess.php:77 class.htaccess.php:102
+#: class.htaccess.php:44 class.htaccess.php:79 class.htaccess.php:106
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: class.htaccess.php:61
+#: class.htaccess.php:63
 msgid "User removed."
 msgstr ""
 
-#: class.htaccess.php:71
+#: class.htaccess.php:73
 msgid "User removed. The locks were disabled: there are no users left."
 msgstr ""
 
-#: class.htaccess.php:97
+#: class.htaccess.php:102
 msgid "User password changed."
 msgstr ""
 
-#: class.htaccess.php:272
+#: class.htaccess.php:276
 msgid "Settings saved."
 msgstr ""
 
