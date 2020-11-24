@@ -4,7 +4,7 @@ Tags: htaccess, htpasswd, security, protect, protection, wp-admin, wp-login
 Author URI: https://github.com/zoltanlaczko
 Plugin URI: https://github.com/zoltanlaczko/wp-htaccess-protect/
 Requires at least: 5.0
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.6
 Stable tag: 0.3.0
 License: GPLv2 or later
@@ -63,6 +63,10 @@ IMPORTANT: Before modifying either of the files, make a copy of them!
 For accessing the files, either use FTP or log in to your web hosting service provider, usually they also enable direct file modification.
 
 == Changelog ==
+
+= 0.4.0 =
+
+* Add WordPress 5.6 support
 
 = 0.3.0 =
 
