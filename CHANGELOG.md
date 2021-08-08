@@ -18,3 +18,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [0.5.0](https://github.com/zoltanlaczko/wp-zotya-htaccess-protect/tree/0.5.0) - 2021-03-07 ##
 * Add WordPress 5.7 support
+
+## [0.6.0](https://github.com/zoltanlaczko/wp-zotya-htaccess-protect/tree/0.6.0) - 2021-08-08 ##
+* Add WordPress 5.8 support
