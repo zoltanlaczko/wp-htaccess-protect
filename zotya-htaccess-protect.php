@@ -3,7 +3,7 @@
 * Plugin Name:       htaccess protect
 * Plugin URI:        https://github.com/zoltanlaczko/wp-htaccess-protect/
 * Description:       Protect your login or admin pages with password.
-* Version:           0.5.0
+* Version:           0.6.0
 * Requires PHP:      5.6
 * Author:            Zoltan Laczko
 * Author URI:        https://github.com/zoltanlaczko
